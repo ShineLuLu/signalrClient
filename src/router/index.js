@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Sample from "@/components/signalr/accountSample";
+import Sample from "@/components/sample";
 
 Vue.use(Router)
 

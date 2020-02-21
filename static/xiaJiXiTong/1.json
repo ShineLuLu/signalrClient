@@ -1,0 +1,83 @@
+{
+    "type": 2001,
+    "msg": "查询命令附加信息，可以为空",
+    "syss": [
+        {
+            "sysID": "xt0001",
+            "sysName": "{工具}0001",
+            "sysStat": 0,
+            "sysLocation": {
+                "sysLon": "100.00",
+                "sysLat": "88.00",
+                "sysAlt": "0.00"
+            },
+            "sysAddtion": {},
+            "subSyss": [
+                {
+                    "subSysID": "fxt001",
+                    "subSysName": "[工具]001",
+                    "subSysStat": 0,
+                    "errDesc": "",
+                    "subSysAddtion": {},
+                    "dvss": [
+                        {
+                            "dvsID": "sb0001",
+                            "dvsName": "(工具)0001",
+                            "runStat": 0,
+                            "errDesc": "",
+                            "dvsAddtion": {}
+                        },
+                        {
+                            "dvsID": "sb0002",
+                            "dvsName": "(工具)0002",
+                            "runStat": 0,
+                            "errDesc": "",
+                            "dvsAddtion": {}
+                        },
+                        {
+                            "dvsID": "sb0003",
+                            "dvsName": "(工具)0003",
+                            "runStat": 0,
+                            "errDesc": "",
+                            "dvsAddtion": {}
+                        }
+                    ]
+                },
+                {
+                    "subSysID": "fxt002",
+                    "subSysName": "[工具]002",
+                    "subSysStat": 0,
+                    "errDesc": "",
+                    "subSysAddtion": {}
+                },
+                {
+                    "subSysID": "fxt003",
+                    "subSysName": "[工具]003",
+                    "subSysStat": 0,
+                    "errDesc": "",
+                    "subSysAddtion": {},
+                    "dvss": [
+                        {
+                            "dvsID": "sb0004",
+                            "dvsName": "(工具)0004",
+                            "runStat": 0,
+                            "errDesc": "",
+                            "dvsAddtion": {}
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sysID": "xt0002",
+            "sysName": "{工具}0002",
+            "sysStat": 0,
+            "sysLocation": {
+                "sysLon": "100.00",
+                "sysLat": "88.00",
+                "sysAlt": "0.00"
+            },
+            "sysAddtion": {}
+        }
+    ]
+}

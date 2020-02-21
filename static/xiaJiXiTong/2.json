@@ -1,0 +1,19 @@
+{
+    "type": 2002,
+    "msg": "查询命令附加信息，可以为空",
+    "sysID": "xt0001",
+    "sysName": "{工具}0001",
+    "reportTime": "2019-09-29 16:05:28",
+    "dataList": [
+        {
+            "dataType": 1,
+            "makeData": 1000,
+            "unit": 1
+        },
+        {
+            "dataType": 2,
+            "makeData": 1000,
+            "unit": 1
+        }
+    ]
+}

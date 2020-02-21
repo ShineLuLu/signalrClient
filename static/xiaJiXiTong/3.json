@@ -1,0 +1,14 @@
+{
+    "type": 2003,
+    "msg": "查询命令附加信息，可以为空",
+    "sysID": "xt0001",
+    "sysName": "{工具}0001",
+    "sysType": "01",
+    "sysForm": "0101",
+    "principalName": "张三",
+    "principalPhone": "13000000000",
+    "principalFax": "000-00000000",
+    "deployPostion": "bszd00001",
+    "deploySystem": "sd0000001",
+    "deployUnit": "bsdw000001"
+}
