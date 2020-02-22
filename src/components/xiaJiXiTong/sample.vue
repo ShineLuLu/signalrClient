@@ -1,12 +1,12 @@
 <template>
   <div class="main-content-panel">
     <div class="interactModule">
-      <p>下级系统模拟</p>
+      <p :style="'color:'+(loginEnabled?'#fff':'#0f0')">下级系统模拟</p>
       <el-input placeholder="请输入名称" v-model="name" clearable></el-input>
       <el-input placeholder="请输入密码" v-model="password" clearable show-password></el-input>
       <div class="login-in-out">
-        <el-button class="login-btn" @click="loginIn" :disabled="!loginEnable">登录</el-button>
-        <el-button class="login-btn" @click="loginOut" :disabled="loginEnable">退出</el-button>
+        <el-button class="login-btn" @click="loginIn" :disabled="!loginEnabled">登录</el-button>
+        <el-button class="login-btn" @click="loginOut" :disabled="loginEnabled">退出</el-button>
       </div>
       <el-select v-model="seFlectedReport" placeholder="请选择">
         <el-option
@@ -19,7 +19,7 @@
           <span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>
         </el-option>
       </el-select>
-      <el-button @click="sendMsgByWebApi">向管理系统发送信息</el-button>
+      <el-button @click="sendMsgByWebApi">向中间系统发送信息</el-button>
       <div class="tipModule" v-html="message"></div>
     </div>
     <pre class="response-data-panel">{{JSON.stringify(responseData, null, 4)}}</pre>
@@ -39,8 +39,8 @@ export default {
       name: "",
       password: "",
       message: "",
-      responseData: "",
-      loginEnable: true,
+      responseData: "接收信息",
+      loginEnabled: true,
       reports: [
         {
           value: "0",
@@ -80,7 +80,7 @@ export default {
       if (this.name && this.password) {
         let that = this;
         this.connection.start().then(() => {
-          that.loginEnable = false;
+          that.loginEnabled = false;
           that.connection.invoke("ConfirmUser", that.name);
         });
       } else {
@@ -91,9 +91,8 @@ export default {
       }
     },
     loginOut() {
-      let that = this;
       this.connection.stop();
-      that.loginEnable = true;
+      this.loginEnabled = true;
     },
     sendSignalRMessage() {
       this.connection.invoke("SendMessage", "来自客户端发送的消息");
@@ -132,12 +131,13 @@ export default {
   text-align: left;
 }
 
-.el-button + .el-button {
+/* .el-button + .el-button {
   margin-left: 0px;
-}
+} */
 
 .login-in-out {
   display: flex;
+  margin-bottom: 10px;
 }
 
 .login-btn {
