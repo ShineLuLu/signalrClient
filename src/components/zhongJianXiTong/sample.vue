@@ -8,6 +8,7 @@
         <el-button class="login-btn" @click="loginIn" :disabled="!loginEnabled">登录</el-button>
         <el-button class="login-btn" @click="loginOut" :disabled="loginEnabled">退出</el-button>
       </div>
+      <el-button class="send-task-btn" @click="sendTask">向下级系统下发任务</el-button>
       <el-select v-model="seFlectedRequire" placeholder="请选择">
         <el-option
           v-for="item in requires"
@@ -22,7 +23,17 @@
       <el-button @click="sendMsgByWebApi">向下级系统发送信息</el-button>
     </div>
     <div class="main-response-panel">
-      <pre>{{responseData}}</pre>
+      <p>历史信息</p>
+      <el-collapse v-model="activeResponse" accordion>
+        <el-collapse-item
+          :title="data.title"
+          :name="index + data.title"
+          v-for="(data,index) in responseDatas"
+          :key="index + data.title"
+        >
+          <pre>{{JSON.stringify(data.response, null, 4)}}</pre>
+        </el-collapse-item>
+      </el-collapse>
     </div>
   </div>
 </template>
@@ -40,7 +51,8 @@ export default {
       name: "",
       password: "",
       loginEnabled: true,
-      responseData: "接收信息",
+      activeResponse: null,
+      responseDatas: [],
       requires: [
         {
           value: "1",
@@ -69,21 +81,22 @@ export default {
         .build();
 
       this.connection.on("receiveMessage", (recivedMsg, data) => {
-        // this.message = `<p>${recivedMsg}</p>` + this.message;
-        this.$message({
+        this.$notify.info({
           message: recivedMsg
         });
-        this.responseData =
-          "接收时间：" +
-          new Date().toLocaleString() +
-          "\n" +
-          JSON.stringify(data, null, 4);
+        let title = recivedMsg;
+        let response = data;
+        this.responseDatas.splice(0, 0, { title, response });
+        this.activeResponse = 0 + title;
       });
 
       this.connection.on("closeConnection", recivedMsg => {
-        this.$message({
+        this.$notify.info({
           message: recivedMsg
         });
+        let title = recivedMsg;
+        this.responseDatas.splice(0, 0, { title });
+        this.activeResponse = 0 + title;
         this.connection.stop();
       });
     },
@@ -105,7 +118,14 @@ export default {
       this.connection.invoke("ConfirmLogout", this.name, "中间系统");
       this.loginEnabled = true;
     },
-    sendMsgByWebApi() {}
+    sendMsgByWebApi() {},
+    sendTask() {
+      let that = this;
+      Axios.get("static/zhongJianXiTong/scheme.json").then(response => {
+        let scheme = response.data;
+        Axios.post("https://localhost:5001/api/signalr/scheme", scheme);
+      });
+    }
   }
 };
 </script>
@@ -121,7 +141,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow-y: auto;
+  padding: 10px;
 }
 
 .main-response-panel {
@@ -138,6 +158,12 @@ export default {
 }
 
 .send-task-btn {
-  margin-top: 10px;
+  margin: 10px 0;
+}
+
+.el-collapse {
+  flex: auto;
+  height: 0;
+  overflow-y: auto;
 }
 </style>

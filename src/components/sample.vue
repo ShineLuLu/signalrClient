@@ -31,6 +31,6 @@ export default {
 .common-style {
   flex: 1;
   border-bottom: 1px solid black;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 </style>

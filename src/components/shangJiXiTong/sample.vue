@@ -15,11 +15,21 @@
           <el-button class="login-btn" @click="loginIn" :disabled="!loginEnabled">登录</el-button>
           <el-button class="login-btn" @click="loginOut" :disabled="loginEnabled">退出</el-button>
         </div>
-        <el-button class="send-task-btn" @click="sendTask">下发任务</el-button>
+        <el-button class="send-task-btn" @click="sendTask">向中间系统下发任务</el-button>
       </div>
     </div>
     <div class="main-response-panel">
-      <pre>{{JSON.stringify(responseData, null, 4)}}</pre>
+      <p>历史信息</p>
+      <el-collapse v-model="activeResponse" accordion>
+        <el-collapse-item
+          :title="data.title"
+          :name="index + data.title"
+          v-for="(data,index) in responseDatas"
+          :key="index + data.title"
+        >
+          <pre>{{JSON.stringify(data.response, null, 4)}}</pre>
+        </el-collapse-item>
+      </el-collapse>
     </div>
   </div>
 </template>
@@ -38,7 +48,9 @@ export default {
       password: "",
       loginEnabled: true,
       responseData: "接收信息",
-      message: ""
+      message: "",
+      activeResponse: null,
+      responseDatas: []
     };
   },
   methods: {
@@ -48,17 +60,22 @@ export default {
         .build();
 
       this.connection.on("receiveMessage", (recivedMsg, data) => {
-        // this.message = `<p>${recivedMsg}</p>` + this.message;
-        this.$message({
+        this.$notify.info({
           message: recivedMsg
         });
-        this.responseData = data;
+        let title = recivedMsg;
+        let response = data;
+        this.responseDatas.splice(0, 0, { title, response });
+        this.activeResponse = 0 + title;
       });
 
       this.connection.on("closeConnection", recivedMsg => {
-        this.$message({
+        this.$notify.info({
           message: recivedMsg
         });
+        let title = recivedMsg;
+        this.responseDatas.splice(0, 0, { title });
+        this.activeResponse = 0 + title;
         this.connection.stop();
       });
     },
@@ -103,7 +120,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow-y: auto;
+  padding: 10px;
 }
 
 .main-response-panel {
@@ -120,5 +137,11 @@ export default {
 
 .send-task-btn {
   margin-top: 10px;
+}
+
+.el-collapse {
+  flex: auto;
+  height: 0;
+  overflow-y: auto;
 }
 </style>
